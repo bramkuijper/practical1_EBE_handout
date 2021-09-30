@@ -1,0 +1,51 @@
+# An evolutionary model of the hawk-dove game
+
+In your previous studies you may have come across a simple evolutionary model, 
+called the Hawk-Dove game. This influential model aims to sketch out how 
+aggressive versus more restrained behaviours evolve 
+when individuals compete with each other over resources. 
+
+Here we analyze a deterministic version of this
+model, by focusing on a population consisting of i) aggressive hawks (denoted by $H$) who
+always fight and do not retreat; and ii) timid Doves (denoted by $D$), who may perform some
+threat display, but eventually will always retreat if the other individual
+starts a fight. 
+
+## Payoff matrices
+We can summarize these interactions in a so-called payoff matrix:
+\begin{align}
+        & H & D \\
+  H \text{ encounters...} \quad & \frac{v-c}{2} & v \\
+  D \text{ encounters...} \quad & 0 & \frac{v}{2}
+\end{align}
+
+
+
+
+Here we are going to develop our own hawk dove model in R and investigate how 
+it plays out, using what we call a *deterministic* model where 
+
+
+
+A key element of this model is that the fitness payoff of a strategy one plays depends on the 
+Until the 1970s, most evolutionary models considered traits 
+
+
+# Fitness of a hawk
+For the sake of simplicity, we assume that being a hawk or dove is the result
+of alleles at a single haploid locus.
+This is crazy of course, hardly any animal traits are haploid! Moreover, even
+fewer are chiefly the result of variation at a single locus only.
+
+This is what typical models are about: sure, the assumptions are wrong, but
+deep insights in evolutionary biology typically come from 
+overly simplistic models as these are at least understandable. The insights of
+the Hawk-Dove game would have been much more poorly understood if 
+
+
+Let $p$ be the frequency of hawks in the population, while $1-p$ is the frequency of doves in the population. 
+For the sake of simplicity, we are going to assume that 
+
+## Exercise
+* Can hawks invade in a full dove population?
+* Can doves invade in a full dove population?

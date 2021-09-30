@@ -1,0 +1,241 @@
+
+# A brief R programming crash course
+To get started with making our own evolutionary model, we need to make a simple program in R that tracks an evolving population. 
+
+To this end, you need to know something about the ingredients that simple programs use, namely variables, vectors/sequences and for-loops. Some of this may have already featured in your statistics or introduction to data science modules, but at this stage, getting some repetition about the sometimes bamboozling inner workings of R certainly does not hurt. Even the most field-oriented among you will use R extensively during your research projects, so the more exposure you can get to this environment, the better.
+
+Try to type along with the examples below and see whether they work. Give me a shout if something looks odd. 
+
+## Variables
+A variable provides us with a named storage of data, allowing you to retrieve that bit of data when you want it. A variable in R can contain any type of data (e.g., a single number, a string of text, a vector of multiple values, etc). 
+
+We assign data to a variable using a `=` or `<-` operator (both can be used interchangeably) For example:
+```{r}
+# create a variable named var.1 and assign a value to it using the <- operator
+var.1 <- 25000
+
+# create a variable named var.2 and assign a vector, c(), of numbers to it using the = operator
+var.2 = c(0,1,9.5,200)
+
+# a bit of text, surrounded by single '' or double "" quotes
+some.text <- "Swanpool beach"
+```
+
+### Naming variables
+Variables can have any name, but cannot start with a number and can only contain dot `.` and underscore `_` characters as special characters.
+
+```{r, error=TRUE,echo=TRUE, collapse=T}
+# this fails
+2times_song_release_year <- 1999
+```
+
+```{r}
+# this is fine
+release_year_2times <- 1999
+```
+
+```{r, error=TRUE,echo=TRUE,collapse=T}
+# this fails too
+release%year <- 1999
+```
+
+
+### Changing the value stored by variables
+You can easily change values of variables, simply by assigning them a new one! The new value can be of a completely different type.     
+```{r,collapse=T}
+# print the value of a variable, showing its current value
+print(var.1)
+
+# change the value
+var.1 <- "some text instead!"
+
+# print the new value
+print(var.1)
+```
+
+You can always check the type of your variable using the `typeof()` function:
+```{r, collapse=TRUE}
+typeof(var.1)
+typeof(var.2)
+```
+As you see, `typeof` does not tell you `var.2` is a vector of multiple values, but just focuses on the type of the values contained in them (in this case a `double`, which is another word for floating point value. If you want to find out if something is a vector of values, you have to look at the length of the variable (see below).
+
+## Vectors and element selection
+As you have seen in the example of `var.2` above, variables can point to collections of multiple values (vectors). To create a vector, we use the `c()` function. We can subsequently get values of (groups of) individual elements by using the `[[]]` operator:
+
+```{r,collapse=T}
+# 1. create a vector of character elements using c()
+animals <- c("Opossum","Dog","Pallas's leaf warbler")
+
+# 2. select a single element using the double square brackets [[]]
+print(animals[[3]])
+
+
+# 3. obtain a selection of 
+# multiple values using [] and
+# a vector of elements you want to select
+print(animals[c(2,3)])
+
+
+# 4. assign a new value to an existing element
+animals[[1]] <- "Click beetle"
+print(animals)
+```
+
+### Exercises
+ * What happens to the vector `animals` if you assign the name of your favorite animal (in quotes `""`, because text) to element `40`?
+ ```{r,echo=F}
+ animals[[40]] = "Blue-cheeked bee eater"
+ ```
+ 
+ * Assign the number 0.5 to element `10` of the `animals` vector. Try to multiple this value by 10, by typing
+ 
+ ```{r,eval=F}
+ animals[[10]]*10
+ ```
+what happens? Use `typeof(animals[[10]])` to see what is going on.
+
+## Information about your vector
+You can obtain information about your vector by using a range of different functions, such as 
+
+ * `sum()`: sums all values (only works with numbers obvz)  
+ * `unique()` lists all unique values  
+ * `sort()` sorts values. 
+and there are lots more. 
+ 
+ 
+ Most often, however, you will use the `length()` function to obtain its size:
+```{r, collapse=T}
+length(x=animals)
+```
+
+### Exercise
+Using the standard `iris` dataset (available within in `R` by typing `iris` on the command line), find out the number of unique values for the column `Sepal.Width`. If you see `iris` but don't know how you can access the column, try to search for it on the web.
+
+## Sequences
+Vectors are also used to contain sequences of numbers, which can either be generated with the from-to operator `:` or with the more explicit `seq()` function:
+```{r,collapse=T}
+# sequence from 1 to 10
+some.seq <- 1:10
+
+# sequence from 10 to 1
+reverse.seq <- 10:1
+
+# same, but using the sequence in some.seq and the rev() 'reverse' function:
+reverse.seq.2 <- rev(some.seq)
+
+# sequence from 10 to 1, using the seq() function, with a negative increment
+another.seq <- seq(from=10,to=1,by=-1)
+
+# the seq() function is great if you want to take bigger steps:
+steps.of.5 <- seq(from=3,to=29,by=5)
+```
+
+We can also make vectors using repetitions of values, through `rep()`:
+```{r}
+# a vector of 300 zeros
+only.zeros <- rep(x=0,times=300)
+
+# a vector of 0,1 values, repeated until a length of 13 is achieved
+zero.one <- rep(x=c(0,1),length.out=13)
+```
+
+## The important bit: `for` loops
+The point about programming is that you want to repeat actions multiple times. To this end, R offers you two different looping constructs: the `while()` loop and the `for` loop. 
+
+In this practical, we focus on the `for` loop as it is more commonly used than `while()`. Best to begin by an example:
+```{r, collapse=T}
+# you need some vector of something
+# otherwise there will
+# be nothing to loop over
+# Here, I use a vector of numbers from 5 up to (& including) 10
+some.vec <- 5:10
+
+# component 1: the for statement within 
+# parentheses ()
+for (iterator in some.vec) 
+{
+    # component 2: the for body within curly braces {} 
+    # in which tasks 
+    # are performed
+    # repeatedly for each value of iterator
+    print(iterator)
+    
+    # I am also printing something else
+    # for the sake of illustration
+    print("Some text.")
+}
+```
+
+From the printed output, you see that the `iterator` gets a new value every time the loop goes round. The message `"Some text"` is also repeatedly printed, but this value does not change.
+
+### Dissecting the for loop
+The loop starts with the keyword `for`, followed by parentheses `()`. Within those parentheses, we always start by declaring a new variable, which -- in this case -- I have called `iterator`, but you could have given it *any* valid name, like `index` or `boring.practical`. 
+
+Each time the `for` loop goes round, the `iterator` variable gets assigned a new value. Which value? An element from a vector, which we have called here `some.vec`. The `in` keyword in between `iterator` and `some.vec` performs the assigning of these consecutive elements from `some.vec` to `iterator`. 
+
+Hence, the first time the loop goes round, `iterator` receives the value of `5`, as this is the first element of `some.vec`. Subsequently, the `for` loop enters the bit in between curly braces `{}`. The code in this part will be executed every time `iterator` gets a new value. In this case, the code is `print(iterator)`, meaning it prints the *current* value of the `iterator` variable (which is `5`) is printed to the screen. After this the subsequent `print()` statement is executed, which prints `"Some text"` to the screen.
+
+Next, the loop goes round again. Now the value of `iterator` will be 6. Again, `6` is printed by the `print()` statements in the `{}`-part and this goes on until all elements from `some.vec` have been assigned to `iterator`. Hence, the last value printed will be `10`, after which the `for` loop exits.
+
+### Another example
+Just to throw in another example that is slightly different, let us calculate the product of elements of two vectors and sum those products:
+```{r,collapse=T}
+# generate two vectors with numbers; 
+# vectors have the same length
+vec.1 <- c(0.3,0.9,1.2,0.1,3.5)
+vec.2 <- c(5,8,12,3,7)
+
+# check whether the length is indeed the same
+stopifnot(length(vec.1) == length(vec.2))
+
+sum <- 0
+
+# loop not over the elements of the list
+# but over the element indices
+# (we can do so by creating a list from 
+# 1 to the length of one of the vectors,
+# i.e., 1,2,3,...)
+for (idx in 1:length(vec.1))
+{
+    # use idx to obtain elements of both vectors
+    # and add them to the total
+    sum <- sum + 
+        vec.1[[idx]] * vec.2[[idx]]
+}
+print(sum)
+```
+
+### Exercises
+  * Can you think of why we don't we write ``for (idx in vec.1)`` as in the previous example?
+  * Could you change the code to store the sum that you obtain
+  in each iteration in a list? I.e., that list should have the values
+```{r,echo=F}
+vec.1 <- c(0.3,0.9,1.2,0.1,3.5)
+vec.2 <- c(5,8,12,3,7)
+
+# check whether the length is indeed the same
+stopifnot(length(vec.1) == length(vec.2))
+
+sum <- 0
+
+cumul.list <- rep(0,times=length(vec.1))
+
+# loop not over the elements of the list
+# but over the element indices
+for (idx in 1:length(vec.1))
+{
+    # use idx to obtain elements of both vectors
+    # and add them to the total
+    sum <- sum + 
+        vec.1[[idx]] * vec.2[[idx]]
+    
+    cumul.list[[idx]] <- sum
+}
+```
+```{r}
+print(cumul.list)
+```
+
+OK now that we have some tools under our belts, let's get going with evolution!!
+

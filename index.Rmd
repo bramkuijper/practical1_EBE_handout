@@ -1,0 +1,31 @@
+--- 
+title: "Evolutionary Behavioural Ecology: practical on Modeling Evolution"
+author: "Bram Kuijper"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+#bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  The HTML output format for this example is bookdown::gitbook,
+  set in the _output.yml file.
+link-citations: yes
+
+---
+
+# Practicals on evolutionary models using R
+
+During the following two practicals, we will try to implement some basic evolutionary models in R. The first practical will focus on the evolution of aggressive vs evasive behaviour. The second practical will focus on the evolution of cooperation and conflict. I am certainly no R expert myself, so this is as much a learning process for you as it is for me.
+
+## Learning objectives
+After this practical, you...  
+
+  * should be able to use R to implement short programs
+  * understand how we can develop simple population genetics models in R
+  * should be able to explain why models necessarily include many limiting assumptions
+  * should be able to inspect your model and draw conclusions from it.
+
+## Opening the R environment
+To provide you with a standardized environment during this practical session, you will have to log into to the University of Exeter's [Rstudio server](https://rstudio01.cles.ex.ac.uk). Of course, you are welcome to try to do the same using your installation of R on your own computer, but we might run into problems regarding the installation of some packages, hence we ask you to stick to the rstudio server during the practical.
