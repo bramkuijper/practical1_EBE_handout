@@ -105,6 +105,14 @@ The clue is in the $\Delta p = p_{t+1} - p_{t}$. If we substitute here for our r
 and we are done. Quite a bit of algebra to show that $p_{t+1}$ and $\Delta p$ are just two sides of the same coin, the first one is a *recursion* equation, the second one a *difference* equation.
 
 ## Implementing our evolutionary algorithm in R
-The `for` loop  that we briefly encountered is ideal to 
+In order to asses whether hawks or doves win out, we need to iterate the population genetics recursion equation $p_{t+1} = p_{t} W_{H} / \bar{W}$ for a number of timesteps until there is no further change.
+
+The `for` loop  that we briefly encountered is an ideal tool to do this. To get you started, I provide a brief part of an R-script - containing mistakes and omissions - that you can modify so that it can update the recursion equation over multiple time steps until evolution stops.
+
+```{r, include=F, cache=F}
+knitr::read_chunk("")
+
+
+
 
 
