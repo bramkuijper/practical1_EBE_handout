@@ -30,16 +30,19 @@ reflect the payoff to a focal player who either plays strategy $H$ or $D$, when 
 Can you explain in your words what each of the payoffs mean? Try to search for descriptions of the Hawk Dove game online if unclear. We will discuss the answer in class.
 
 ## A haploid population genetical model of the Hawk-Dove game
-Although the Hawk-Dove game is often used as an example of evolutionary game theory, here we start from the ground up by developing a more rigorous model that is based on population genetics. Population genetics deals with all the genetic detail, so is more complete than evolutionary game theory. However, analyzing the formulas of the population genetics model is slightly more challenging, so this is why we will use R to simulate the model instead. 
+Although the Hawk-Dove game is often used as an example of evolutionary game theory, here we start from the ground up by developing a more rigorous model that is based on population genetics. Population genetics deals with genetic detail, so is more complete than evolutionary game theory. However, analyzing the formulas of the population genetics model is slightly more challenging, so this is why we will use R to simulate the model instead. 
 
 By comparing whether predictions from evolutionary game theory match our population genetics model, we can see whether genetic detail matters, if at all. If predictions do not match, this may tell us that lack genetic assumptions in evolutionary game theory can lead to erroneous conclusions. Such exercises are worthwhile if you want to predict when a phenotypic gambit may be an accurate vs inaccurate description of the evolution of behaviour.
 
-## Alleles
+## Lots of crazy assumptions
 For the sake of simplicity, we assume that being a hawk or dove is the result
-of **just two alleles at a single haploid locus**!
-This is crazy of course, hardly any animal traits are haploid! Moreover, even
-fewer are chiefly the result of variation at a single locus only. The question is whether we would learn a similar amount from a hugely convoluted model with 1000s of loci...
+of **just two alleles at a single haploid locus**! Moreover, reproduction occurs asexually. The population sizes are assumed to be infinite.
+This is crazy of course, hardly any animals are asexual, let alone haploid. Moreover, even
+fewer are chiefly the result of variation at a single locus only. 
 
+The question is whether we would learn a similar amount from a hugely convoluted model in which we track the actual population size, have 1000s of loci or deal with sexual reproduction and all the resulting products of recombination.
+
+## Allele frequencies
 Let $p_{t}$ be the frequency of the allele coding for $H$ in the population at generation $t$, while $1-p_{t}$ is the frequency of the $D$ allele in the population at generation $t$. We assume that strategies are _pure_, meaning that an individual having the $H$ or $D$ allele will always be a hawk or dove respectively. Later on, we will consider a case where strategies are _mixed_, so that $p_{t}$ does not reflect the frequency of the $H$ allele, but the probability with which each individual plays $H$ at each interaction.
 
 ## Life cycle
@@ -104,15 +107,53 @@ The clue is in the $\Delta p = p_{t+1} - p_{t}$. If we substitute here for our r
 \end{align}
 and we are done. Quite a bit of algebra to show that $p_{t+1}$ and $\Delta p$ are just two sides of the same coin, the first one is a *recursion* equation, the second one a *difference* equation.
 
-## Implementing our evolutionary algorithm in R
+## Implementing an evolutionary algorithm in R
 In order to asses whether hawks or doves win out, we need to iterate the population genetics recursion equation $p_{t+1} = p_{t} W_{H} / \bar{W}$ for a number of timesteps until there is no further change.
 
 The `for` loop  that we briefly encountered is an ideal tool to do this. To get you started, I provide a brief part of an R-script - containing mistakes and omissions - that you can modify so that it can update the recursion equation over multiple time steps until evolution stops.
 
-```{r, include=F, cache=F}
-knitr::read_chunk("")
+```{r, code=xfun::read_utf8("hawk_dove_exercise.r"),eval=F}
+```
+## Exercise
+Can you improve the code above to obtain the change in frequency of the hawk allele over `max_time` timesteps? If successful, try to explore the parameter values $v$ and $c$.
 
+## Exercise
+Can you try to run your script multiple times, each time for a different initial value of the frequency of hawks? Does it matter where you start? Can you plot the output from your simulation either in $R$ or in Excel?
+Plotting in R can be done with
+```{r,echo=F}
+v <- 2.0
+c <- 4.0
 
+w0 <- 5
+
+max_time <- 100
+p <- rep(NA,times=max_time)
+
+p[[1]] <- 0.1
+
+for (iter in 1:(max_time-1))
+{
+    wD <- p[[iter]] * 0 + (1-p[[iter]]) * v/2
+    wH <- p[[iter]] * (v-c)/2 + (1 - p[[iter]]) * v
+    
+    wBar <- p[[iter]] * wH + (1-p[[iter]]) * wD
+    
+    
+    p[[iter + 1]] <- p[[iter]] * wH / wBar
+    
+}
+```
+
+```{r,eval=T}
+plot(x=1:max_time
+     ,y=p
+     ,ylim=c(0,1.0)
+     ,xlab="generation"
+     ,ylab="frequency Hawk allele")
+```
+
+## Exercise
+From evolutionary game theory, we know that the equilibrium frequency $\hat{p}$ of hawks (i.e., the frequency at which there is no further change in the frequency of hawks) is $\hat{p} = v/c$. Do you get the same answer here? What would you conclude about the importance of genetic detail?
 
 
 

@@ -58,7 +58,7 @@ You can always check the type of your variable using the `typeof()` function:
 typeof(var.1)
 typeof(var.2)
 ```
-As you see, `typeof` does not tell you `var.2` is a vector of multiple values, but just focuses on the type of the values contained in them (in this case a `double`, which is another word for floating point value. If you want to find out if something is a vector of values, you have to look at the length of the variable (see below).
+As you see, `typeof` does not tell you `var.2` is a vector of multiple values, but just focuses on the type of the values contained in them (in this case a `double`, which is another word for floating point value). If you want to find out if something is a vector of values, you have to look at the length of the variable (see below).
 
 ## Vectors and element selection
 As you have seen in the example of `var.2` above, variables can point to collections of multiple values (vectors). To create a vector, we use the `c()` function. We can subsequently get values of (groups of) individual elements by using the `[[]]` operator:
@@ -88,7 +88,7 @@ print(animals)
  animals[[40]] = "Blue-cheeked bee eater"
  ```
  
- * Assign the number 0.5 to element `10` of the `animals` vector. Try to multiple this value by 10, by typing
+ * Assign the number 0.5 to element `10` of the `animals` vector. Try to multiply this value by 10, by typing
  
  ```{r,eval=F}
  animals[[10]]*10
@@ -207,7 +207,7 @@ print(sum)
 ```
 
 ### Exercises
-  * Can you think of why we don't we write ``for (idx in vec.1)`` as in the previous example?
+  * Why we don't we write ``for (idx in vec.1)``, as in the previous example?
   * Could you change the code to store the sum that you obtain
   in each iteration in a list? I.e., that list should have the values
 ```{r,echo=F}
@@ -237,5 +237,5 @@ for (idx in 1:length(vec.1))
 print(cumul.list)
 ```
 
-OK now that we have some tools under our belts, let's get going with evolution!!
+Now that we have some tools under our belts, let's get going with evolution!!
 

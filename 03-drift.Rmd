@@ -1,0 +1,60 @@
+# Individual-based simulations and drift
+
+So far, the model that we have used was deterministic, where multiple runs for the same values of the parameters $v$ and $c$ always result in the same outcome. In reality, however, evolution does not work like that: lots of processes are the result of chance. This does not only apply to things like mutation, or whether or not you happen to encounter a hawk rather than a dove, but also to the sampling of newborns in the next generation. This process is called genetic drift. To include such chance processes in models of evolution, we need to work with a different model, namely a model that is stochastic!
+
+## Installing the `driftSim` package
+In the following exercise we explore such a model, which is provided in an R package `driftSim`. To install this, you need to do the following
+
+```{r, eval=T, message=F}
+if (!require("devtools")) install.packages("devtools")
+
+library("devtools")
+devtools::install_github("bramkuijper/driftSim")
+
+library("driftSim")
+```
+
+This package contains what we call an individual-based simulation, which is nothing more than a computer program that explicitly models individuals and their actions. While the package runs within R, under the hood it is coded in the low-level programming language C++. This is because large simulations tend to be very slow in R, but are much faster in C++. Below you see a little snippet from this package, reflecting the properties of single individual:
+
+```{c, eval=F}
+struct Individual {
+    bool is_hawk; // TRUE/FALSE individual is hawk or dove
+    double payoff; // the value of the payoff
+    double prob_hawk; // the probability that this individual develops as a hawk in early life (only used when strategies are mixed)
+};
+```
+
+The program then simulates a finite population (take that, population genetics) of $N$ of these individuals. At the start of each generation, each individual interacts with a randomly chosen other individual and either attacks (hawk) or displays (dove). It gets its payoffs based on the same payoff matrix as in the deterministic model. Subsequently, we then produce $N$ newborn offspring from this population. Parents of each of these offspring are sampled from the previous generation, with individuals who have a larger payoff being more likely to be selected than individuals which have a lower payoff.
+
+## Exercise: limiting assumptions
+Individual-based simulations are often used to relax many of the limiting assumptions present in deterministic models, as writing computer code is typically much easier than devising a simple and tractable mathematical model. We have already seen how individual-based simulations have relaxed one assumption of the popoulation genetics mode, namely the fact that population sizes can now be finite, rather than infinite. 
+
+Can you list at least three limiting assumptions from the deterministic population genetics model? For each assumption, can you think how relaxing the assumption could potentially affect results? (It is often much easier to spell out what is wrong with a model than to spell out why it matters...)
+
+## Running the `driftSim` package
+The `driftSim` package contains a single function, called `runSimulation()`. In order to run it, inspect the documentation by trying out `?runSimulation()`. Let us start with a simple example run with a population size of $N=10$, $v=1.0$, $c=2.0$ and a bunch of different parameters. Most are not so important, except that the initial frequency $p_{t=0}$ of Hawks which is set at $p_{t=0} = 0.25$.
+```{r,eval=T,collapse=T}
+runSimulation(N=10,v=1.0,c=2.0,is_pure=T,mu=0,max_time=10,pHawk_init=0.25,output_nth_generation=1,sd_pHawkMixed=0)
+```
+
+In this way, however, we cannot use the data from the `runSimulation()` function. To make sure that the resulting data will be contained in a `data.frame` by assigning the return value of the `runSimulation()` function to a variable, like this:
+```{r,eval=T,collapse=T}
+my.data <- runSimulation(N=10,v=1.0,c=2.0,is_pure=T,mu=0,max_time=10,pHawk_init=0.25,output_nth_generation=1,sd_pHawkMixed=0)
+```
+
+The `my.data` variable points to a `data.frame` with the following columns:
+ 1. `generation`: generation time point
+ 2. `freq_Hawk`: the frequency of hawks in the population, the variable of interest
+ 3. `mean_pHawkMixed`: in case hawks and doves are the result of a mixed strategy, this is the (evolving) probability that any individual will develop as Hawk at the start of its life. This is 0 in case `is_pure=T`, when we consider pure strategies of Hawks and Doves
+ 4. `sd_pHawkMixed`: variation among individuals in their ability to develop as Hawks (only nonzero when `is_pure=F`)
+ 
+## Plotting the output from the `driftSim` package
+Make a plot where plot `generation` on the $x$-axis and `freq_Hawk` on the $y$-axis. Re-run your simulation at least 10 times. What happens (typically) with the hawk allele? 
+
+## Exercise: change the initial frequency of hawks
+Now, change the initial frequency of Hawks by changing the value of `pHawk_init` to `pHawk_init=0.75`. Run the simulation for a long time, for example `max_time=500`. What happens now with the frequency of Hawks? What does that tell you about the phenotypic gambit, do we still reach the predicted equilibrium frequency of hawks $\hat{p} = v/c$?
+
+## Exercise: increase the population size
+Now, try the same with a population size of $N=500$. What happens now?
+
+

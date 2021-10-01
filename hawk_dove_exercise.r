@@ -1,6 +1,8 @@
-## @knitr ex_for_loop ----------------------
-
-# evolution of hawks and doves
+# broken code on the evolution of hawks vs doves
+# we intend to iterate the haploid population genetics
+# recursion p(t+1) = p(t)*...
+# but quite some things are missing or are wrong.
+# Can you spot the errors / omissions?
 
 # parameters coding the payoffs
 c <- 2.0
@@ -30,4 +32,3 @@ for (time_idx  )
     p[[time_idx + 1]] <- p[[time_idx]] * wD
 }
 
-## @knitr end_ex_for_loop ----------------------
