@@ -1,6 +1,12 @@
 # An evolutionary model of the hawk-dove game
 
-In your previous studies you may have come across a simple evolutionary model, 
+Why do we often find that competitors 
+exhibit ritualized displays
+(e.g., threats such growling, baring one's teeth)
+to decide fights with competitors,
+rather than engaging in escalated fights in order to kill the opponent?
+
+This question has been addressed by a simple evolutionary model, 
 called the Hawk-Dove game. This influential model aims to sketch out how 
 aggressive versus more restrained behaviours evolve 
 when individuals compete with each other over resources. 
@@ -12,40 +18,93 @@ threat display, but eventually will always retreat if the other individual
 starts a fight. 
 
 ## Payoff matrices
-We can summarize these interactions in a so-called payoff matrix:
-\begin{align}
-        & H & D \\
-  H \text{ encounters...} \quad & \frac{v-c}{2} & v \\
-  D \text{ encounters...} \quad & 0 & \frac{v}{2}
-\end{align}
+We can summarize these interactions in a so-called payoff matrix, where the rows
+reflect the payoff to a focal player who either plays strategy $H$ or $D$, when it encounters other $H$s or $D$s (columns).
 
-
-
-
-Here we are going to develop our own hawk dove model in R and investigate how 
-it plays out, using what we call a *deterministic* model where 
-
-
-
-A key element of this model is that the fitness payoff of a strategy one plays depends on the 
-Until the 1970s, most evolutionary models considered traits 
-
-
-# Fitness of a hawk
-For the sake of simplicity, we assume that being a hawk or dove is the result
-of alleles at a single haploid locus.
-This is crazy of course, hardly any animal traits are haploid! Moreover, even
-fewer are chiefly the result of variation at a single locus only.
-
-This is what typical models are about: sure, the assumptions are wrong, but
-deep insights in evolutionary biology typically come from 
-overly simplistic models as these are at least understandable. The insights of
-the Hawk-Dove game would have been much more poorly understood if 
-
-
-Let $p$ be the frequency of hawks in the population, while $1-p$ is the frequency of doves in the population. 
-For the sake of simplicity, we are going to assume that 
+| focal $\downarrow$  opponent $\rightarrow$       |   $H$   |  $D$     |
+|---------------------|----------|----------|
+|  $H$              |  $\frac{v-c}{2}$  | $v$ |
+|  $D$              |  $0$  | $\frac{v}{2}$ |
 
 ## Exercise
-* Can hawks invade in a full dove population?
-* Can doves invade in a full dove population?
+Can you explain in your words what each of the payoffs mean? Try to search for descriptions of the Hawk Dove game online if unclear. We will discuss the answer in class.
+
+## A haploid population genetical model of the Hawk-Dove game
+Although the Hawk-Dove game is often used as an example of evolutionary game theory, here we start from the ground up by developing a more rigorous model that is based on population genetics. Population genetics deals with all the genetic detail, so is more complete than evolutionary game theory. However, analyzing the formulas of the population genetics model is slightly more challenging, so this is why we will use R to simulate the model instead. 
+
+By comparing whether predictions from evolutionary game theory match our population genetics model, we can see whether genetic detail matters, if at all. If predictions do not match, this may tell us that lack genetic assumptions in evolutionary game theory can lead to erroneous conclusions. Such exercises are worthwhile if you want to predict when a phenotypic gambit may be an accurate vs inaccurate description of the evolution of behaviour.
+
+## Alleles
+For the sake of simplicity, we assume that being a hawk or dove is the result
+of **just two alleles at a single haploid locus**!
+This is crazy of course, hardly any animal traits are haploid! Moreover, even
+fewer are chiefly the result of variation at a single locus only. The question is whether we would learn a similar amount from a hugely convoluted model with 1000s of loci...
+
+Let $p_{t}$ be the frequency of the allele coding for $H$ in the population at generation $t$, while $1-p_{t}$ is the frequency of the $D$ allele in the population at generation $t$. We assume that strategies are _pure_, meaning that an individual having the $H$ or $D$ allele will always be a hawk or dove respectively. Later on, we will consider a case where strategies are _mixed_, so that $p_{t}$ does not reflect the frequency of the $H$ allele, but the probability with which each individual plays $H$ at each interaction.
+
+## Life cycle
+We assume that generations are discrete, implying that all individuals die after reproduction. Upon birth, a newborn individual fights or displays with other individuals a single time. From this interaction, it will collect a payoff as given in the payoff matrix above. The payoff is then proportional to the number of offspring the individual produces.
+
+## Fitness
+An individual reproduces according to the payoffs it has collected. Let us denote the fitness of a hawk and dove as $W_{H}$ and $W_{D}$ respectively, which we can interpret as the number of offspring produced by each of these types.
+
+Starting with the fitness of a focal dove $W_{D,t}$ at generation $t$, we have
+\begin{align}
+W_{D,t} &= w_{0} + p_{t} (0) + \left(1-p_{t} \right) \frac{v}{2}
+\end{align}
+
+ * the first element on the right-hand side of the equation above reflects so-called 'baseline fitness', which is the fitness that this individual accrues during other activities than displaying. It is assumed that baseline fitness is similar for hawks and doves.
+ * the second part reflects the probability that a dove meets a hawk (which has frequency $p_{t}$). It will then immediately retreat, hence collecting no payoff (but also incurring no costs), reflected by the $(0)$. 
+ * the third part reflects the probability that a dove meets another dove (which has frequency $1-p_{t}$). In that case they will split the value of the resource, hence $v/2$.
+
+## Exercise
+
+1. Based on similar reasoning as for $W_{D,t}$ above, can you write down the fitness expression $W_{H,t}$ for a focal hawk in generation $t$? Again, assume that there is some baseline fitness $w_{0}$ accrued from other activities than fighting:
+
+\begin{align}
+W_{H,t} &= w_{0} + \ldots + \ldots
+\end{align}
+
+2. Can fitnesses $W_{H,t}$ and $W_{D,t}$ be negative? 
+
+## Evolutionary dynamics
+Now that we have derived fitness expressions of the dove and hawk alleles, let us consider how the frequencies of these alleles change over time. The frequency $p_{t+1}$ of the hawk allele at time $t+1$ is given by a surprisingly simple equation:
+
+\begin{align}
+p_{t+1} &= p_{t}  \frac{W_{H}}{\bar{W}_{t}}
+\end{align}
+
+This is a so-called recursion equation, tracking an allele frequency *recursively* from one generation to the next. Keep an eye on this equation, as we will need it later on. The term $\bar{W}_{t}$ in the expression above is the average fitness in the population in generation $t$, given by
+\begin{align}
+\bar{W} &= p_{t} W_{H} + \left(1 - p_{t} \right ) W_{D}
+\end{align}
+
+The expression for $p_{t+1}$ above tells you that if hawks do better than the average ($W_{H} > \bar{W}$), the frequency of the hawk allele will increase from one generation to the next, as $W_{H}/\bar{W} > 1$. Similarly, if hawks do worse than average, we have $W_{H}/\bar{W} < 1$ and the frequency of the hawk allele decreases.
+
+One advantage of our super-simple model is that we do not have derive a separate expression for the change in frequency of the dove allele!! This is simply $1-p_{t+1}$. However, if we would consider more than two alleles per locus (or multiple loci), matters would be (far) more difficult.
+
+## Relation to $\Delta p$ in lecture slides (only if interested)
+In the lecture slides we have seen that the change in allele frequency was given by
+\begin{align}
+\Delta p = p_{t+1} - p_{t} = p_{t} \left ( 1 - p_{t} \right ) \frac{ W_{H} - W_{D}}{\bar{W}}
+\end{align}
+
+If you want to know how the above relates to the equation we have seen in the lecture slides, read this! If not interested, please skip ahead to the next section.
+
+How do we get from our recursion equation $p_{t+1} = \ldots $ to the one above? 
+The clue is in the $\Delta p = p_{t+1} - p_{t}$. If we substitute here for our recursion equation of $p_{t+1}$, we get:
+
+\begin{align}
+\Delta p &= p_{t+1} - p_{t} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \quad \text{substitute for }p_{t+1} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{\bar{W_{t}}}{\bar{W}_{t}} \quad \text{common demoninator} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{p_{t} W_{H} + \left (1  - p_{t}\right ) W_{D} }{\bar{W}_{t}} \quad \text{expanding }\bar{W} \\
+&= p_{t} \left (1 - p_{t} \right )  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{\left (1  - p_{t}\right ) W_{D} }{\bar{W}_{t}} \quad \text{clubbing terms of }W_{H} \\
+&= p_{t} \left (1 - p_{t} \right ) \frac{W_{H} - W_{D}}{\bar{W}_{t}} \quad \text{clubbing terms of }p_{t} \left(1-p_{t} \right) \\
+\end{align}
+and we are done. Quite a bit of algebra to show that $p_{t+1}$ and $\Delta p$ are just two sides of the same coin, the first one is a *recursion* equation, the second one a *difference* equation.
+
+## Implementing our evolutionary algorithm in R
+The `for` loop  that we briefly encountered is ideal to 
+
+

@@ -6,8 +6,8 @@
 ]{book}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -109,7 +109,7 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
 \usepackage{booktabs}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage[]{natbib}
@@ -117,25 +117,8 @@
 
 \title{Evolutionary Behavioural Ecology: practical on Modeling Evolution}
 \author{Bram Kuijper}
-\date{2021-09-23}
+\date{2021-09-30}
 
-\usepackage{amsthm}
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{corollary}{Corollary}[chapter]
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{conjecture}{Conjecture}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}[chapter]
-\theoremstyle{definition}
-\newtheorem{hypothesis}{Hypothesis}[chapter]
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-\newtheorem*{solution}{Solution}
 \begin{document}
 \maketitle
 
@@ -243,6 +226,7 @@ You can easily change values of variables, simply by assigning them a new one! T
 \CommentTok{\# print the value of a variable, showing its current value}
 \FunctionTok{print}\NormalTok{(var}\FloatTok{.1}\NormalTok{)}
 \DocumentationTok{\#\# [1] 25000}
+
 \CommentTok{\# change the value}
 \NormalTok{var}\FloatTok{.1} \OtherTok{\textless{}{-}} \StringTok{"some text instead!"}
 
@@ -278,11 +262,15 @@ As you have seen in the example of \texttt{var.2} above, variables can point to 
 \CommentTok{\# 2. select a single element using the double square brackets [[]]}
 \FunctionTok{print}\NormalTok{(animals[[}\DecValTok{3}\NormalTok{]])}
 \DocumentationTok{\#\# [1] "Pallas\textquotesingle{}s leaf warbler"}
+
+
 \CommentTok{\# 3. obtain a selection of }
 \CommentTok{\# multiple values using [] and}
 \CommentTok{\# a vector of elements you want to select}
 \FunctionTok{print}\NormalTok{(animals[}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{)])}
 \DocumentationTok{\#\# [1] "Dog"                   "Pallas\textquotesingle{}s leaf warbler"}
+
+
 \CommentTok{\# 4. assign a new value to an existing element}
 \NormalTok{animals[[}\DecValTok{1}\NormalTok{]] }\OtherTok{\textless{}{-}} \StringTok{"Click beetle"}
 \FunctionTok{print}\NormalTok{(animals)}
@@ -492,7 +480,13 @@ OK now that we have some tools under our belts, let's get going with evolution!!
 \hypertarget{an-evolutionary-model-of-the-hawk-dove-game}{%
 \chapter{An evolutionary model of the hawk-dove game}\label{an-evolutionary-model-of-the-hawk-dove-game}}
 
-In your previous studies you may have come across a simple evolutionary model,
+Why do we often find that competitors
+exhibit ritualized displays
+(e.g., threats such growling, baring one's teeth)
+to decide fights with competitors,
+rather than engaging in escalated fights in order to kill the opponent?
+
+This question has been addressed by a simple evolutionary model,
 called the Hawk-Dove game. This influential model aims to sketch out how
 aggressive versus more restrained behaviours evolve
 when individuals compete with each other over resources.
@@ -506,143 +500,129 @@ starts a fight.
 \hypertarget{payoff-matrices}{%
 \section{Payoff matrices}\label{payoff-matrices}}
 
-We can summarize these interactions in a so-called payoff matrix:
-\begin{align}
-        & H & D \\
-  H \text{ encounters...} \quad & \frac{v-c}{2} & v \\
-  D \text{ encounters...} \quad & 0 & \frac{v}{2}
-\end{align}
+We can summarize these interactions in a so-called payoff matrix, where the rows
+reflect the payoff to a focal player who either plays strategy \(H\) or \(D\), when it encounters other \(H\)s or \(D\)s (columns).
 
-Here we are going to develop our own hawk dove model in R and investigate how
-it plays out, using what we call a \emph{deterministic} model where
-
-A key element of this model is that the fitness payoff of a strategy one plays depends on the
-Until the 1970s, most evolutionary models considered traits
-
-\hypertarget{fitness-of-a-hawk}{%
-\chapter{Fitness of a hawk}\label{fitness-of-a-hawk}}
-
-For the sake of simplicity, we assume that being a hawk or dove is the result
-of alleles at a single haploid locus.
-This is crazy of course, hardly any animal traits are haploid! Moreover, even
-fewer are chiefly the result of variation at a single locus only.
-
-This is what typical models are about: sure, the assumptions are wrong, but
-deep insights in evolutionary biology typically come from
-overly simplistic models as these are at least understandable. The insights of
-the Hawk-Dove game would have been much more poorly understood if
-
-Let \(p\) be the frequency of hawks in the population, while \(1-p\) is the frequency of doves in the population.
-For the sake of simplicity, we are going to assume that
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+focal \(\downarrow\) opponent \(\rightarrow\) & \(H\) & \(D\) \\
+\midrule
+\endhead
+\(H\) & \(\frac{v-c}{2}\) & \(v\) \\
+\(D\) & \(0\) & \(\frac{v}{2}\) \\
+\bottomrule
+\end{longtable}
 
 \hypertarget{exercise-1}{%
 \section{Exercise}\label{exercise-1}}
 
+Can you explain in your words what each of the payoffs mean? Try to search for descriptions of the Hawk Dove game online if unclear. We will discuss the answer in class.
+
+\hypertarget{a-haploid-population-genetical-model-of-the-hawk-dove-game}{%
+\section{A haploid population genetical model of the Hawk-Dove game}\label{a-haploid-population-genetical-model-of-the-hawk-dove-game}}
+
+Although the Hawk-Dove game is often used as an example of evolutionary game theory, here we start from the ground up by developing a more rigorous model that is based on population genetics. Population genetics deals with all the genetic detail, so is more complete than evolutionary game theory. However, analyzing the formulas of the population genetics model is slightly more challenging, so this is why we will use R to simulate the model instead.
+
+By comparing whether predictions from evolutionary game theory match our population genetics model, we can see whether genetic detail matters, if at all. If predictions do not match, this may tell us that lack genetic assumptions in evolutionary game theory can lead to erroneous conclusions. Such exercises are worthwhile if you want to predict when a phenotypic gambit may be an accurate vs inaccurate description of the evolution of behaviour.
+
+\hypertarget{alleles}{%
+\section{Alleles}\label{alleles}}
+
+For the sake of simplicity, we assume that being a hawk or dove is the result
+of \textbf{just two alleles at a single haploid locus}!
+This is crazy of course, hardly any animal traits are haploid! Moreover, even
+fewer are chiefly the result of variation at a single locus only. The question is whether we would learn a similar amount from a hugely convoluted model with 1000s of loci\ldots{}
+
+Let \(p_{t}\) be the frequency of the allele coding for \(H\) in the population at generation \(t\), while \(1-p_{t}\) is the frequency of the \(D\) allele in the population at generation \(t\). We assume that strategies are \emph{pure}, meaning that an individual having the \(H\) or \(D\) allele will always be a hawk or dove respectively. Later on, we will consider a case where strategies are \emph{mixed}, so that \(p_{t}\) does not reflect the frequency of the \(H\) allele, but the probability with which each individual plays \(H\) at each interaction.
+
+\hypertarget{life-cycle}{%
+\section{Life cycle}\label{life-cycle}}
+
+We assume that generations are discrete, implying that all individuals die after reproduction. Upon birth, a newborn individual fights or displays with other individuals a single time. From this interaction, it will collect a payoff as given in the payoff matrix above. The payoff is then proportional to the number of offspring the individual produces.
+
+\hypertarget{fitness}{%
+\section{Fitness}\label{fitness}}
+
+An individual reproduces according to the payoffs it has collected. Let us denote the fitness of a hawk and dove as \(W_{H}\) and \(W_{D}\) respectively, which we can interpret as the number of offspring produced by each of these types.
+
+Starting with the fitness of a focal dove \(W_{D,t}\) at generation \(t\), we have
+\begin{align}
+W_{D,t} &= w_{0} + p_{t} (0) + \left(1-p_{t} \right) \frac{v}{2}
+\end{align}
+
 \begin{itemize}
 \tightlist
 \item
-  Can hawks invade in a full dove population?
+  the first element on the right-hand side of the equation above reflects so-called `baseline fitness', which is the fitness that this individual accrues during other activities than displaying. It is assumed that baseline fitness is similar for hawks and doves.
 \item
-  Can doves invade in a full dove population?
+  the second part reflects the probability that a dove meets a hawk (which has frequency \(p_{t}\)). It will then immediately retreat, hence collecting no payoff (but also incurring no costs), reflected by the \((0)\).
+\item
+  the third part reflects the probability that a dove meets another dove (which has frequency \(1-p_{t}\)). In that case they will split the value of the resource, hence \(v/2\).
 \end{itemize}
 
-\hypertarget{parts}{%
-\chapter{Parts}\label{parts}}
+\hypertarget{exercise-2}{%
+\section{Exercise}\label{exercise-2}}
 
-You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Based on similar reasoning as for \(W_{D,t}\) above, can you write down the fitness expression \(W_{H,t}\) for a focal hawk in generation \(t\)? Again, assume that there is some baseline fitness \(w_{0}\) accrued from other activities than fighting:
+\end{enumerate}
 
-Add a numbered part: \texttt{\#\ (PART)\ Act\ one\ \{-\}} (followed by \texttt{\#\ A\ chapter})
+\begin{align}
+W_{H,t} &= w_{0} + \ldots + \ldots
+\end{align}
 
-Add an unnumbered part: \texttt{\#\ (PART\textbackslash{}*)\ Act\ one\ \{-\}} (followed by \texttt{\#\ A\ chapter})
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Can fitnesses \(W_{H,t}\) and \(W_{D,t}\) be negative?
+\end{enumerate}
 
-Add an appendix as a special kind of un-numbered part: \texttt{\#\ (APPENDIX)\ Other\ stuff\ \{-\}} (followed by \texttt{\#\ A\ chapter}). Chapters in an appendix are prepended with letters instead of numbers.
+\hypertarget{evolutionary-dynamics}{%
+\section{Evolutionary dynamics}\label{evolutionary-dynamics}}
 
-\hypertarget{footnotes-and-citations}{%
-\chapter{Footnotes and citations}\label{footnotes-and-citations}}
+Now that we have derived fitness expressions of the dove and hawk alleles, let us consider how the frequencies of these alleles change over time. The frequency \(p_{t+1}\) of the hawk allele at time \(t+1\) is given by a surprisingly simple equation:
 
-\hypertarget{footnotes}{%
-\section{Footnotes}\label{footnotes}}
+\begin{align}
+p_{t+1} &= p_{t}  \frac{W_{H}}{\bar{W}_{t}}
+\end{align}
 
-Footnotes are put inside the square brackets after a caret \texttt{\^{}{[}{]}}. Like this one \footnote{This is a footnote.}.
+This is a so-called recursion equation, tracking an allele frequency \emph{recursively} from one generation to the next. Keep an eye on this equation, as we will need it later on. The term \(\bar{W}_{t}\) in the expression above is the average fitness in the population in generation \(t\), given by
+\begin{align}
+\bar{W} &= p_{t} W_{H} + \left(1 - p_{t} \right ) W_{D}
+\end{align}
 
-\hypertarget{citations}{%
-\section{Citations}\label{citations}}
+The expression for \(p_{t+1}\) above tells you that if hawks do better than the average (\(W_{H} > \bar{W}\)), the frequency of the hawk allele will increase from one generation to the next, as \(W_{H}/\bar{W} > 1\). Similarly, if hawks do worse than average, we have \(W_{H}/\bar{W} < 1\) and the frequency of the hawk allele decreases.
 
-Reference items in your bibliography file(s) using \texttt{@key}.
+One advantage of our super-simple model is that we do not have derive a separate expression for the change in frequency of the dove allele!! This is simply \(1-p_{t+1}\). However, if we would consider more than two alleles per locus (or multiple loci), matters would be (far) more difficult.
 
-For example, we are using the \textbf{bookdown} package \citep{R-bookdown} (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and \textbf{knitr} \citep{xie2015} (this citation was added manually in an external file book.bib).
-Note that the \texttt{.bib} files need to be listed in the index.Rmd with the YAML \texttt{bibliography} key.
+\hypertarget{relation-to-delta-p-in-lecture-slides-skip-this-if-not-interested}{%
+\section{\texorpdfstring{Relation to \(\Delta p\) in lecture slides (skip this if not interested)}{Relation to \textbackslash Delta p in lecture slides (skip this if not interested)}}\label{relation-to-delta-p-in-lecture-slides-skip-this-if-not-interested}}
 
-The RStudio Visual Markdown Editor can also make it easier to insert citations: \url{https://rstudio.github.io/visual-markdown-editing/\#/citations}
+In the lecture slides we have seen that the change in allele frequency was given by
+\begin{align}
+\Delta p = p_{t+1} - p_{t} = p_{t} \left ( 1 - p_{t} \right ) \frac{ W_{H} - W_{D}}{\bar{W}}
+\end{align}
 
-\hypertarget{blocks}{%
-\chapter{Blocks}\label{blocks}}
+If you want to know how the above relates to the equation we have seen in the lecture slides, read this! If not interested, please skip ahead to the next section.
 
-\hypertarget{equations}{%
-\section{Equations}\label{equations}}
+How do we get from our recursion equation \$p\_\{t+1\} = \ldots \$ to the one above?
+The clue is in the \(\Delta p = p_{t+1} - p_{t}\). If we substitute here for our recursion equation of \(p_{t+1}\), we get:
 
-Here is an equation.
+\begin{align}
+\Delta p &= p_{t+1} - p_{t} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \quad \text{substitute for }p_{t+1} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{\bar{W_{t}}}{\bar{W}_{t}} \quad \text{common demoninator} \\
+&= p_{t}  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{p_{t} W_{H} + \left (1  - p_{t}\right ) W_{D} }{\bar{W}_{t}} \quad \text{expanding }\bar{W} \\
+&= p_{t} \left (1 - p_{t} \right )  \frac{W_{H}}{\bar{W}_{t}} - p_{t} \frac{\left (1  - p_{t}\right ) W_{D} }{\bar{W}_{t}} \quad \text{clubbing terms of }W_{H} \\
+&= p_{t} \left (1 - p_{t} \right ) \frac{W_{H} - W_{D}}{\bar{W}_{t}} \quad \text{clubbing terms of }p_{t} \left(1-p_{t} \right) \\
+\end{align}
 
-\begin{equation} 
-  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
-  \label{eq:binom}
-\end{equation}
-
-You may refer to using \texttt{\textbackslash{}@ref(eq:binom)}, like see Equation \eqref{eq:binom}.
-
-\hypertarget{theorems-and-proofs}{%
-\section{Theorems and proofs}\label{theorems-and-proofs}}
-
-Labeled theorems can be referenced in text using \texttt{\textbackslash{}@ref(thm:tri)}, for example, check out this smart theorem \ref{thm:tri}.
-
-\begin{theorem}
-\protect\hypertarget{thm:tri}{}\label{thm:tri}For a right triangle, if \(c\) denotes the \emph{length} of the hypotenuse
-and \(a\) and \(b\) denote the lengths of the \textbf{other} two sides, we have
-\[a^2 + b^2 = c^2\]
-\end{theorem}
-
-Read more here \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
-
-\hypertarget{callout-blocks}{%
-\section{Callout blocks}\label{callout-blocks}}
-
-The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: \url{https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html}
-
-\hypertarget{sharing-your-book}{%
-\chapter{Sharing your book}\label{sharing-your-book}}
-
-\hypertarget{publishing}{%
-\section{Publishing}\label{publishing}}
-
-HTML books can be published online, see: \url{https://bookdown.org/yihui/bookdown/publishing.html}
-
-\hypertarget{pages}{%
-\section{404 pages}\label{pages}}
-
-By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you'd like to customize your 404 page instead of using the default, you may add either a \texttt{\_404.Rmd} or \texttt{\_404.md} file to your project root and use code and/or Markdown syntax.
-
-\hypertarget{metadata-for-sharing}{%
-\section{Metadata for sharing}\label{metadata-for-sharing}}
-
-Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the \texttt{index.Rmd} YAML. To setup, set the \texttt{url} for your book and the path to your \texttt{cover-image} file. Your book's \texttt{title} and \texttt{description} are also used.
-
-This \texttt{gitbook} uses the same social sharing data across all chapters in your book- all links shared will look the same.
-
-Specify your book's source repository on GitHub using the \texttt{edit} key under the configuration options in the \texttt{\_output.yml} file, which allows users to suggest an edit by linking to a chapter's source file.
-
-Read more about the features of this output format here:
-
-\url{https://pkgs.rstudio.com/bookdown/reference/gitbook.html}
-
-Or use:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{?bookdown}\SpecialCharTok{::}\NormalTok{gitbook}
-\end{Highlighting}
-\end{Shaded}
-
-
-  \bibliography{book.bib,packages.bib}
+\hypertarget{implementing-our-evolutionary-algorithm}{%
+\section{Implementing our evolutionary algorithm}\label{implementing-our-evolutionary-algorithm}}
 
 \end{document}
