@@ -1,0 +1,19 @@
+# Hawk Dove games with relatives
+
+In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa.
+
+In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affects the evolution of aggression. 
+
+We will use the same payoff matrix as before (see [the table in chapter 2](#tab:payoffHD)). However, what changes are the interaction probabilities between the individuals. Let us recall the previous fitness expressions $W_{H}$ and $W_{D}$ for Hawks and Doves respectively:
+\begin{align}
+W_{H} &= w_{0} + p_{t} \frac{v-c}{2} + \left(1 - p_{t} \right) v (\#eq:wH) \\
+W_{D} &= w_{0} + p_{t} (0) + \left(1 - p_{t} \right) \frac{v}{2} (\#eq:wD)\\
+\end{align}
+
+## Exercise
+Go over eqns. \@ref(eq:wH),\@ref(eq:wD), consult table \@ref(tab:payoffHD) go over the terms and check whether you understand them. 
+
+
+
+
+

@@ -26,6 +26,8 @@ reflect the payoff to a focal player who either plays strategy $H$ or $D$, when 
 |  $H$              |  $\frac{v-c}{2}$  | $v$ |
 |  $D$              |  $0$  | $\frac{v}{2}$ |
 
+Table: (\#tab:payoffHD) The payoff matrix of the Hawk-Dove game.
+
 ## Exercise
 Can you explain in your words what each of the payoffs mean? Try to search for descriptions of the Hawk Dove game online if unclear. We will discuss the answer in class.
 

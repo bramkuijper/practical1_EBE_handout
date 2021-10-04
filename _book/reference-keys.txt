@@ -1,3 +1,6 @@
+tab:payoffHD
+eq:wH
+eq:wD
 practicals-on-evolutionary-models-using-r
 learning-objectives
 opening-the-r-environment
@@ -36,3 +39,5 @@ running-the-driftsim-package
 plotting-the-output-from-the-driftsim-package
 exercise-change-the-initial-frequency-of-hawks
 exercise-increase-the-population-size
+hawk-dove-games-with-relatives
+exercisee
