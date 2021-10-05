@@ -117,7 +117,7 @@
 
 \title{Evolutionary Behavioural Ecology: practical 1 - Modelling Evolution}
 \author{Bram Kuijper}
-\date{2021-10-01}
+\date{2021-10-04}
 
 \begin{document}
 \maketitle
@@ -504,6 +504,11 @@ We can summarize these interactions in a so-called payoff matrix, where the rows
 reflect the payoff to a focal player who either plays strategy \(H\) or \(D\), when it encounters other \(H\)s or \(D\)s (columns).
 
 \begin{longtable}[]{@{}lll@{}}
+\caption{\label{tab:payoffHD} The payoff matrix of the Hawk-Dove game.}\tabularnewline
+\toprule
+focal \(\downarrow\) opponent \(\rightarrow\) & \(H\) & \(D\) \\
+\midrule
+\endfirsthead
 \toprule
 focal \(\downarrow\) opponent \(\rightarrow\) & \(H\) & \(D\) \\
 \midrule
@@ -753,8 +758,8 @@ The \texttt{driftSim} package contains a single function, called \texttt{runSimu
 \FunctionTok{runSimulation}\NormalTok{(}\AttributeTok{N=}\DecValTok{10}\NormalTok{,}\AttributeTok{v=}\FloatTok{1.0}\NormalTok{,}\AttributeTok{c=}\FloatTok{2.0}\NormalTok{,}\AttributeTok{is\_pure=}\NormalTok{T,}\AttributeTok{mu=}\DecValTok{0}\NormalTok{,}\AttributeTok{max\_time=}\DecValTok{10}\NormalTok{,}\AttributeTok{pHawk\_init=}\FloatTok{0.25}\NormalTok{,}\AttributeTok{output\_nth\_generation=}\DecValTok{1}\NormalTok{,}\AttributeTok{sd\_pHawkMixed=}\DecValTok{0}\NormalTok{)}
 \DocumentationTok{\#\#    generation freq\_Hawk mean\_pHawkMixed sd\_pHawkMixed}
 \DocumentationTok{\#\# 1           1       0.1               0             0}
-\DocumentationTok{\#\# 2           2       0.2               0             0}
-\DocumentationTok{\#\# 3           3       0.1               0             0}
+\DocumentationTok{\#\# 2           2       0.1               0             0}
+\DocumentationTok{\#\# 3           3       0.0               0             0}
 \DocumentationTok{\#\# 4           4       0.0               0             0}
 \DocumentationTok{\#\# 5           5       0.0               0             0}
 \DocumentationTok{\#\# 6           6       0.0               0             0}
@@ -793,5 +798,23 @@ Now, change the initial frequency of Hawks by changing the value of \texttt{pHaw
 \section{Exercise: increase the population size}\label{exercise-increase-the-population-size}}
 
 Now, try the same with a population size of \(N=500\). What happens now?
+
+\hypertarget{hawk-dove-games-with-relatives}{%
+\chapter{Hawk Dove games with relatives}\label{hawk-dove-games-with-relatives}}
+
+In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa.
+
+In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affects the evolution of aggression.
+
+We will use the same payoff matrix as before (see \protect\hyperlink{tab:payoffHD}{the table in chapter 2}). However, what changes are the interaction probabilities between the individuals. Let us recall the previous fitness expressions \(W_{H}\) and \(W_{D}\) for Hawks and Doves respectively:
+\begin{align}
+W_{H} &= w_{0} + p_{t} \frac{v-c}{2} + \left(1 - p_{t} \right) v \label{eq:wH} \\
+W_{D} &= w_{0} + p_{t} (0) + \left(1 - p_{t} \right) \frac{v}{2} \label{eq:wD}\\
+\end{align}
+
+\hypertarget{exercisee}{%
+\section{Exercisee}\label{exercisee}}
+
+Go over eqns. (\eqref{eq:wH},\eqref{eq:wD}), consult table (\eqref{eq:payoffHD}) go over the terms and check whether you understand them
 
 \end{document}

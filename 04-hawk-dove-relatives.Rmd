@@ -1,0 +1,34 @@
+# Hawk Dove games with relatives
+
+In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa.
+
+In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affects the evolution of aggression. In the previous simple model, interactions were chiefly *random*, so that the probability of encountering one type vs the other was given by the frequencies of Hawks $p_{t}$ and Doves $1-p_{t}$ at time $t$.
+
+However, when individuals interact with relatives, clearly interactions are not random anymore, so we need to change the model in the same way the prisoner's dilemma model is changed to account for non-random interactions.
+
+While we will use the same payoff matrix as before (see [the table in chapter 2](#tab:payoffHD)), let us therefore change the interaction probabilities between the individuals. Let us recall the previous fitness expressions $W_{H}$ and $W_{D}$ for Hawks and Doves respectively:
+\begin{align}
+W_{H} &= w_{0} + p_{t} \frac{v-c}{2} + \left(1 - p_{t} \right) v (\#eq:wH) \\
+W_{D} &= w_{0} + p_{t} (0) + \left(1 - p_{t} \right) \frac{v}{2} (\#eq:wD)\\
+\end{align}
+
+Below you find the R code that we used to iterate the system of equations.
+```{r, code=xfun::read_utf8("hawk_dove_exercise.r"),eval=T}
+```
+
+## Interactions among relatives
+Rather than using the frequencies $p_{t}$ and $1-p_{t}$, we will now modify the Hawk Dove game by using *conditional probabilities* reflecting non-random encounter rates, replacing the random encounter rates. 
+
+* $\Pr(H|H)$ probability of encounter between a focal Hawk and non-focal Hawk.
+* $\Pr(D|H)$ probability of encounter between a focal Hawk and a Dove (note again, that $\Pr(H|H) + Pr(D|H) = 1$).
+* $\Pr(H|D)$ probability of encounter between a focal Dove and a Hawk.
+* $\Pr(D|D)$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H|D) + \Pr(D|D) = 1$).
+
+Hence, we now got the following expressions: 
+
+
+
+
+## Exercise
+Now incorporate the modulated 
+
