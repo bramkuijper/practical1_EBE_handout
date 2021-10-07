@@ -1,19 +1,19 @@
 # Hawk Dove games with relatives
 
-In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa.
+In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa (do you remember why?).
 
-In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affects the evolution of aggression. In the previous simple model, interactions were chiefly *random*, so that the probability of encountering one type vs the other was given by the frequencies of Hawks $p_{t}$ and Doves $1-p_{t}$ at time $t$.
+In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affect the evolution of aggression. In the simple model we used previously, interactions were entirely driven by *random* encounters, so that the probability of encountering one type vs the other was given by the frequencies of Hawks $p_{t}$ and Doves $1-p_{t}$ in generation $t$.
 
-However, when individuals interact with relatives, clearly interactions are not random anymore, so we need to change the model in the same way the prisoner's dilemma model is changed to account for non-random interactions.
+Now we study the case where interactions are not random, but some assortment takes place. Hence, we need to change the model in the same way the prisoner's dilemma model is changed to account for non-random interactions.
 
-While we will use the same payoff matrix as before (see [the table in chapter 2](#tab:payoffHD)), let us therefore change the interaction probabilities between the individuals. Let us recall the previous fitness expressions $W_{H}$ and $W_{D}$ for Hawks and Doves respectively:
+While we will use the same payoff matrix as before (see [the table in chapter 2](#tab:payoffHD)), let us now change the interaction probabilities between the individuals. Recall the previous fitness expressions $W_{H}$ and $W_{D}$ for Hawks and Doves respectively:
 \begin{align}
 W_{H} &= w_{0} + p_{t} \frac{v-c}{2} + \left(1 - p_{t} \right) v (\#eq:wH) \\
 W_{D} &= w_{0} + p_{t} (0) + \left(1 - p_{t} \right) \frac{v}{2} (\#eq:wD)\\
 \end{align}
 
 Below you find the R code that we used to iterate the system of equations.
-```{r, code=xfun::read_utf8("hawk_dove_exercise.r"),eval=T}
+```{r, code=xfun::read_utf8("hawk_dove.r"),eval=F}
 ```
 
 ## Interactions among relatives
@@ -24,9 +24,7 @@ Rather than using the frequencies $p_{t}$ and $1-p_{t}$, we will now modify the 
 * $\Pr(H|D)$ probability of encounter between a focal Dove and a Hawk.
 * $\Pr(D|D)$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H|D) + \Pr(D|D) = 1$).
 
-Hence, we now got the following expressions: 
-
-
+If we would incorporate these conditional probabilities into the fitness expressions above, we would get
 
 
 ## Exercise
