@@ -31,14 +31,14 @@ Rather than using the frequencies $p_{t}$ and $1-p_{t}$, we will now modify the 
 
 Incorporating these conditional probabilities into the fitness expressions above yields
 \begin{align}
-W_{H} &= w_{0} + \Pr(H\mid H) \frac{v-c}{2} + \left(1 - \Pr (D \mid H ) \right) v (\#eq:wH) \\
-W_{D} &= w_{0} + \Pr (H \mid D) (0) + \left(1 - \Pr ( D \mid D ) \right) \frac{v}{2} (\#eq:wD)\\
+W_{H} &= w_{0} + \Pr(H\mid H) \frac{v-c}{2} +  \Pr (D \mid H ) v (\#eq:wH) \\
+W_{D} &= w_{0} + \Pr (H \mid D) (0) + \Pr ( D \mid D )  \frac{v}{2} (\#eq:wD)\\
 \end{align}
 
 ## Hamilton's rule in a Hawk Dove game?
 If we would follow the example of the Prisoner's dilemma in the lecture slides, would we expect to find something similar to Hamilton's rule when we assess the condition in which more cooperative Doves do better than defecting Hawks, i.e., $W_{D} > W_{H}$? 
 
-Let us look again at the Prisoner's dilemma: altruists ($A$) do better than nonaltruists $NA$ (originally called 'Defect' in the lecture slides but I change notation to avoid confusion with Dove) when $W_{A} > $W_{NS}$, which eventually results in (see lecture slides):
+Let us look again at the Prisoner's dilemma: altruists ($A$) do better than nonaltruists $NA$ (originally called 'Defect' in the lecture slides but I change notation to avoid confusion with Dove) when $W_{A} > W_{NA}$, which eventually results in (see lecture slides):
 \begin{align}
 \left( \Pr(A \mid A ) - \Pr(A \mid NA ) \right ) b &> c \\
 \end{align}
