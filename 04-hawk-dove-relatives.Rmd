@@ -18,13 +18,16 @@ Below you find the R code that we used to iterate the system of equations.
 ```{r, code=xfun::read_utf8("hawk_dove.r"),eval=F}
 ```
 
+## Exercise
+Just to get yourself familiar with the model again, try to run it for different values of $v$ and $c$ and see what happens.
+
 ## Interactions among relatives
 Rather than using the frequencies $p_{t}$ and $1-p_{t}$, we will now modify the Hawk Dove game by using *conditional probabilities* reflecting non-random encounter rates, replacing the random encounter rates. 
 
-* $\Pr(H \mid H)$ probability of encounter between a focal Hawk and non-focal Hawk.
-* $\Pr(D \mid H)$ probability of encounter between a focal Hawk and a Dove (note again, that $\Pr(H \mid H) + Pr(D \mid H) = 1$).
-* $\Pr(H \mid D)$ probability of encounter between a focal Dove and a Hawk.
-* $\Pr(D \mid D)$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H \mid D) + \Pr(D \mid D) = 1$).
+* $$ \Pr(H \mid H)$$ probability of encounter between a focal Hawk and non-focal Hawk.
+* $$ \Pr(D \mid H)$$ probability of encounter between a focal Hawk and a Dove (note again, that $\Pr(H \mid H) + Pr(D \mid H) = 1$).
+* $$ \Pr(H \mid D)$$ probability of encounter between a focal Dove and a Hawk.
+* $$ \Pr(D \mid D)$$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H \mid D) + \Pr(D \mid D) = 1$).
 
 Incorporating these conditional probabilities into the fitness expressions above yields
 \begin{align}
@@ -32,38 +35,130 @@ W_{H} &= w_{0} + \Pr(H\mid H) \frac{v-c}{2} + \left(1 - \Pr (D \mid H ) \right) 
 W_{D} &= w_{0} + \Pr (H \mid D) (0) + \left(1 - \Pr ( D \mid D ) \right) \frac{v}{2} (\#eq:wD)\\
 \end{align}
 
-## Hamilton's rule breaking down
-If we would follow the example of the Prisoner's dilemma in the lecture slides, would we expect to find something similar to Hamilton's rule when we assess the condition in which more cooperative Doves do better than defecting Hawks, i.e., $W_{D} > W_{H}$? It turns out that we don't! In the Prisoner's dilemma, altruists ($A$) did better than nonaltruists $NA$ when
+## Hamilton's rule in a Hawk Dove game?
+If we would follow the example of the Prisoner's dilemma in the lecture slides, would we expect to find something similar to Hamilton's rule when we assess the condition in which more cooperative Doves do better than defecting Hawks, i.e., $W_{D} > W_{H}$? 
+
+Let us look again at the Prisoner's dilemma: altruists ($A$) do better than nonaltruists $NA$ (originally called 'Defect' in the lecture slides but I change notation to avoid confusion with Dove) when $W_{A} > $W_{NS}$, which eventually results in (see lecture slides):
 \begin{align}
-\left( \Pr(A \mid A ) - \Pr(A \mid NA ) \right b &> c \\
+\left( \Pr(A \mid A ) - \Pr(A \mid NA ) \right ) b &> c \\
 \end{align}
-where the term $\Pr(A \mid A ) - \Pr(A \mid NA )$ would be something similar to the coefficient of relatedness $r$.
+where the term $\Pr(A \mid A ) - \Pr(A \mid NA )$ can be shown to reflect the coefficient of relatedness $r$.
 
 In case Hamilton's rule would apply to the Hawk Dove game, we would thus expect an expression of the form
 \begin{align}
-\left(\Pr(D \mid D) - \Pr(D \mid H ) \right x &> y \\
+\left(\Pr(D \mid D) - \Pr(D \mid H ) \right ) x &> y \\
 \end{align}
 where $x$ and $y$ would be coefficients that would result from combinations of payoffs in the Hawk Dove game.
 
 
-Yet, actually working out the same tricks on the Hawk Dove game as was done on the Prisoner's Dilemma, we would obtain something rather different, namely
+Yet, actually working out the same tricks on the Hawk Dove game as was done on the Prisoner's Dilemma in the preceding lecture, we obtain something rather different, namely
 \begin{align}
 \left [ \Pr (D \mid D) - \Pr ( D \mid H) \right ] v - \Pr (D \mid H) v > \Pr ( H \mid H ) \left (v - c \right )
 \end{align}
 
-Clearly, coefficients are not simply $v$ on the left hand side and $c$ on the right, but that is obvious as costs are not carried by the cooperators, but rather by pairs of interacting Hawks. But beyond this, there is something more important to note in the expression above, namely that beyond the relatedness coefficient $\Pr(D \mid D) - \Pr(D \mid H )$ there is an additional coefficient on the left hand side. Hence, rather than anything like $r x > y$ we now have $r x + k z > g y$ (i.e., lots more terms!). And that despite it being a very 2 player game!
+Clearly, coefficients are not simply $v$ on the left hand side and $c$ on the right, but that is obvious as costs are not carried by the cooperators, but rather by pairs of interacting Hawks. But beyond this, there is something more important to note in the expression above, namely that next to the relatedness coefficient $\Pr(D \mid D) - \Pr(D \mid H )$ there is an additional coefficient on the left-hand side (and the right-hand side is multiplied by $\Pr(H\mid H)$). 
+
+Hence, rather than anything like $r x > y$ we now have $r x + k z > g y$ (i.e., lots more terms)!! And that despite it being a super simple 2 player game! What is going on??
 
 ## Exercise
 
-Can you think of why a simple expression like $r x > y$ does not apply to the Hawk Dove game? Specifically, compare the payoff matrix for the Prisoner's dilemma (see lecture slides) with the one of the Hawk dove game (see [the table in chapter 2](#tab:payoffHD)) and try to sum over the rows and columns of the matrix. 
+Can you think of why a simple expression like $r x > y$ does not apply to the Hawk Dove game? Specifically, compare the payoff matrix for the Prisoner's dilemma (see lecture slides) with the one of the Hawk dove game (see [the table in chapter 2](#tab:payoffHD)). What happens if you move from the top row to the bottom row in the payoff matrix, does the payoff increase / decrease by the same amount in the Hawk Dove game vs the Prisoner's Dilemma? What happens if you move from the left column to the right column? Discuss.
+
 
 ## Evolution of aggression when relatives interact in R
 
-It turns out, relatedness comes into the Hawk Dove game in a slightrl different way. If we think of $r$ as the probability that two interacting individuals carry an allele copy that is identical by descent, we have
-\begin{align}
+Now that we know we cannot really use Hamilton's rule to predict when Doves will outlive Hawks, we have to resort to our previously used method of iterating a population genetics recursion equation in R to predict how interactions among relatives affects aggression. It turns out, relatedness $r$ comes into this in another way, namely directly through the conditional probabilities. If we interpret $r$ as being the chance of interacting with an individual that shares an allele identical by descent, we have
+
+* $$ \Pr(H \mid H) = r \times 1 + (1-r ) p_{t} $$ probability of encounter between a focal Hawk and non-focal Hawk.
+* $$ \Pr(D \mid H) = r \times 0 + (1-r) (1-p_{t}) $$ probability of encounter between a focal Hawk and a Dove (note that $\Pr(H \mid H) + Pr(D \mid H) = 1$).
+* $$ \Pr(H \mid D) = r \times 0 + (1-r) p_{t} $$ probability of encounter between a focal Dove and a Hawk 
+* $$ \Pr(D \mid D) = r \times 1 + (1- r) (1-p_{t} ) $$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H \mid D) + \Pr(D \mid D) = 1$).
+
+## Exercise
+Can you try to explain what is going on in the expressions above? Why do allele frequencies $p_{t}$ still feature here?
+
+## Exercise
+
+1. Copy-paste the code of the correct numerical iterations of the hawk dove game above and modify the encounter rates to allow for nonrandom interactions. While $p_{t}$ is still the allele frequency of the Hawk allele, you have to add $r$ as a constant parameter, which you can give any value between $0 \leq r \leq 1$ before you start the iteration. Start with $r=0.5$, for example, what does this mean about the relatives any individual is most likely to interact?
+
+2. Is it reasonable to think as $r$ as a constant parameter?
+
+## Exercise
+Plot your results for different values of $r$, either in Excel or by using one of the plotting packages in R. Is the relationship between aggression and $r$ in line with your expectations?
+
+
+# Spatially explicit models of the Hawk Dove game
+In the previous set of exercises, we discussed our assumption of $r$ being constant. While this allows you to assess the role of specific values of $r$, in reality $r$ emerges as a result of the ecology of a population, allowing us to focus on the ecological factors that drive the evolution of sociality. Models in which $r$ is not treated at a constant, but *emerges* are called *demographically consistent*. 
+
+One major ecological factor that affects $r$ is the probability of dispersal: if few individuals disperse, while most just stick around in their natal environment, relatedness among randomly sampled individuals is likely to be much higher than when most individuals disperse and go elsewhere. 
+
+## Exercise
+Can you think of other ecological factors that influence $r$?
+
+## Investigating how dispersal affects aggression: adding space to the Hawk Dove game
+Given the results from the numerical model of the Hawk Dove game among relatives, we would thus predict that reducing the rate of dispersal (which results in an increase in $r$) should reduce the evolution of aggression. 
+
+
+To investigate this prediction, we need a model that includes some notion of space, as individuals need to disperse from one patch to another. There lots of different ways to include space in models. Most commonly used are:
+
+1. **two-patch models**: in which a population distributed across (lo-and-behold) two sites, with migration occurring between them (example: island vs mainland). In this case, at least one of the environments typically contains lots of individuals (the mainland), making it unlikely that relatives encounter each other in a large proportion of the population. If this is the ecological setting, interactions between relatives are likely to be less important anyway.
+
+2. **lattice models**: individuals migrate around on a grid of patches, moving from one patch to an adjacent one per timestep. If this is the ecology, then interactions among relatives are much more likelyt to occur, as even when individuals migrate, they are still close to the natal site and hence likely to interact with other relatives that have dispersed. However, at the same time, this means that what happens in one patches correlates with what happens in another, which makes these models much more tedious to model. Also there are loads of additional assumptions involved (e.g., what do you do at the edge of a lattice? Do you move to the other side (i.e., a torus world) or do you bounce back? 
+
+3. **island models**: in this flavour of a spatial model, once individuals migrate, they move to a randomly chosen site in the population. This may well describe taxa such as many insects where individuals move relatively away from their natal patch, while the non-dispersers stay at their natal site. Next to the two-patch case, this is the easiest version of a spatial model, so that is what we will be focusing on here.
+
+## Exercise
+Discuss the pros and cons of each model - what approach has your preference and why?
+
+
+The life cycle of the island model is similar to that of the numerical one before: 1. individuals are born; 2. they disperse or not and compete for one of $N_{bp}$ breeding positions with native and immigrant juveniles; 3. they interact with a randomly chosen patch mate and obtain a payoff; 4. the number of offspring that are produced are then proportional to the payoff they have received.
+
+## A spatial model of the hawk dove game
+In `R` (make sure you use version 4.1.1), we now proceed to install the package `hdIslandModel` which is an individual based simulation of an island model with Hawks and Doves, allowing us to vary the rate of dispersal. 
+```{r,collapse=T,eval=F,message=F}
+if (!require("devtools")) install.packages("devtools")
+
+library("devtools")
+devtools::install_github("bramkuijper/hdIslandModel")
+
+```
+
+Then we can load the library using:
+```{r, eval=T, messages=F}
+library("hdIslandModel")
+```
+
+The model contained in the package can be called by the command `runHDSpace()` which spits out a `data.frame` containing a bunch of statistics resulting from the simulation that we can save in a variable, say `sim.standard`:
+```{r, eval=F}
+sim.standard <- runHDSpace() 
+```
+
+## Exercise
+
+1. Take a look at the documentation of the function `runHDSpace()` by typing `?runHDSpace()`. 
+
+2. Let's run the island model for a payoff in which we would expect an evolutionarily stable strategy (ESS) to occur at $\hat{p}=0.5$ (frequency Hawks is 50%) when interactions among relatives are absent. This happens happens when $\hat{p} = v/c = 1/2$. To run the model, focus on a pure strategy (do you remember what this means?) with a small mutation rate of $mu=0.01$ and $N=10$ breeders patch. Set the dispersal rate to something low, like $d=0.1$, which typically results in quite high relatedness coefficients of $r\approx 0.3-0.4$ among randomly sampled patch mates. The other parameters can be left at their default values. 
+
+3. In case dispersal indeed increases $r$, what would we expect to see happen with the proportion of Hawks over time, should it be smaller or larger than 0.5? What is the proportion of Hawks at the end of the simulation? (Run multiple runs, as drift may cause outcomes to vary). 
+
+4. What happens if you set the dispersal rate to $d=0.8$? Does this make a difference?
+
+## Exercise
+What can we conclude about the relationship between dispersal and social behaviour from the above? Why does this happen, you think?
+
+## Exercise
+Perhaps something different happens if we allow dispersal to evolve? Run your simulation for $max_time = 20000$ and see what happens with the dispersal rate. Does dispersal evolve in a predictable way?
 
 
 
+
+
+
+
+
+
+
+ 
 
 ## Exercise
 Now incorporate the modulated 

@@ -5,12 +5,16 @@ So far, the model that we have used was deterministic, where multiple runs for t
 ## Installing the `driftSim` package
 In the following exercise we explore such a model, which is provided in an R package `driftSim`. To install this, you need to do the following
 
-```{r, eval=T, message=F}
+```{r, eval=F, message=F}
 if (!require("devtools")) install.packages("devtools")
 
 library("devtools")
 devtools::install_github("bramkuijper/driftSim")
 
+```
+
+Then we can load the library using:
+```{r, eval=T, messages=F}
 library("driftSim")
 ```
 
