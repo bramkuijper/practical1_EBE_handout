@@ -2,7 +2,9 @@
 
 In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa (do you remember why?).
 
-In this practical, we take the simple Hawk Dove game a step further by considering how interactions among relatives affect the evolution of aggression. In the simple model we used previously, interactions were entirely driven by *random* encounters, so that the probability of encountering one type vs the other was given by the frequencies of Hawks $p_{t}$ and Doves $1-p_{t}$ in generation $t$.
+In this practical, we take the Hawk Dove game a step further by considering how interactions among relatives affect the evolution of aggression. Indeed, one could argue that a Hawk could be analogous to a defector that exploits cooperative Doves. 
+
+In the simple model we used previously, interactions were entirely driven by *random* encounters, so that the probability of encountering one type vs the other was given by the frequencies of Hawks $p_{t}$ and Doves $1-p_{t}$ in generation $t$. 
 
 Now we study the case where interactions are not random, but some assortment takes place. Hence, we need to change the model in the same way the prisoner's dilemma model is changed to account for non-random interactions.
 
@@ -19,12 +21,48 @@ Below you find the R code that we used to iterate the system of equations.
 ## Interactions among relatives
 Rather than using the frequencies $p_{t}$ and $1-p_{t}$, we will now modify the Hawk Dove game by using *conditional probabilities* reflecting non-random encounter rates, replacing the random encounter rates. 
 
-* $\Pr(H|H)$ probability of encounter between a focal Hawk and non-focal Hawk.
-* $\Pr(D|H)$ probability of encounter between a focal Hawk and a Dove (note again, that $\Pr(H|H) + Pr(D|H) = 1$).
-* $\Pr(H|D)$ probability of encounter between a focal Dove and a Hawk.
-* $\Pr(D|D)$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H|D) + \Pr(D|D) = 1$).
+* $\Pr(H \mid H)$ probability of encounter between a focal Hawk and non-focal Hawk.
+* $\Pr(D \mid H)$ probability of encounter between a focal Hawk and a Dove (note again, that $\Pr(H \mid H) + Pr(D \mid H) = 1$).
+* $\Pr(H \mid D)$ probability of encounter between a focal Dove and a Hawk.
+* $\Pr(D \mid D)$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H \mid D) + \Pr(D \mid D) = 1$).
 
-If we would incorporate these conditional probabilities into the fitness expressions above, we would get
+Incorporating these conditional probabilities into the fitness expressions above yields
+\begin{align}
+W_{H} &= w_{0} + \Pr(H\mid H) \frac{v-c}{2} + \left(1 - \Pr (D \mid H ) \right) v (\#eq:wH) \\
+W_{D} &= w_{0} + \Pr (H \mid D) (0) + \left(1 - \Pr ( D \mid D ) \right) \frac{v}{2} (\#eq:wD)\\
+\end{align}
+
+## Hamilton's rule breaking down
+If we would follow the example of the Prisoner's dilemma in the lecture slides, would we expect to find something similar to Hamilton's rule when we assess the condition in which more cooperative Doves do better than defecting Hawks, i.e., $W_{D} > W_{H}$? It turns out that we don't! In the Prisoner's dilemma, altruists ($A$) did better than nonaltruists $NA$ when
+\begin{align}
+\left( \Pr(A \mid A ) - \Pr(A \mid NA ) \right b &> c \\
+\end{align}
+where the term $\Pr(A \mid A ) - \Pr(A \mid NA )$ would be something similar to the coefficient of relatedness $r$.
+
+In case Hamilton's rule would apply to the Hawk Dove game, we would thus expect an expression of the form
+\begin{align}
+\left(\Pr(D \mid D) - \Pr(D \mid H ) \right x &> y \\
+\end{align}
+where $x$ and $y$ would be coefficients that would result from combinations of payoffs in the Hawk Dove game.
+
+
+Yet, actually working out the same tricks on the Hawk Dove game as was done on the Prisoner's Dilemma, we would obtain something rather different, namely
+\begin{align}
+\left [ \Pr (D \mid D) - \Pr ( D \mid H) \right ] v - \Pr (D \mid H) v > \Pr ( H \mid H ) \left (v - c \right )
+\end{align}
+
+Clearly, coefficients are not simply $v$ on the left hand side and $c$ on the right, but that is obvious as costs are not carried by the cooperators, but rather by pairs of interacting Hawks. But beyond this, there is something more important to note in the expression above, namely that beyond the relatedness coefficient $\Pr(D \mid D) - \Pr(D \mid H )$ there is an additional coefficient on the left hand side. Hence, rather than anything like $r x > y$ we now have $r x + k z > g y$ (i.e., lots more terms!). And that despite it being a very 2 player game!
+
+## Exercise
+
+Can you think of why a simple expression like $r x > y$ does not apply to the Hawk Dove game? Specifically, compare the payoff matrix for the Prisoner's dilemma (see lecture slides) with the one of the Hawk dove game (see [the table in chapter 2](#tab:payoffHD)) and try to sum over the rows and columns of the matrix. 
+
+## Evolution of aggression when relatives interact in R
+
+It turns out, relatedness comes into the Hawk Dove game in a slightrl different way. If we think of $r$ as the probability that two interacting individuals carry an allele copy that is identical by descent, we have
+\begin{align}
+
+
 
 
 ## Exercise
