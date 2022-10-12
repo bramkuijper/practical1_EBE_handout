@@ -1,6 +1,6 @@
 # Hawk Dove games with relatives
 
-In the previous practical, we used the Hawk Dove game to study the evolution of fighting behaviour. We found that aggression can be limited by costs of fighting, and also that it may be easier for a population of Doves to be invaded by Hawks rather than vice versa (do you remember why?).
+So far, we used the Hawk Dove game to study the evolution of fighting behaviour in well-mixed populations. We found that aggression can be limited by costs of fighting $c$.
 
 In this practical, we take the Hawk Dove game a step further by considering how interactions among relatives affect the evolution of aggression. Indeed, one could argue that a Hawk could be analogous to a defector that exploits cooperative Doves. 
 
@@ -14,11 +14,12 @@ W_{H} &= w_{0} + p_{t} \frac{v-c}{2} + \left(1 - p_{t} \right) v (\#eq:wH) \\
 W_{D} &= w_{0} + p_{t} (0) + \left(1 - p_{t} \right) \frac{v}{2} (\#eq:wD)\\
 \end{align}
 
+
 Below you find the R code that we used to iterate the system of equations.
 ```{r, code=xfun::read_utf8("hawk_dove.r"),eval=F}
 ```
 
-## Exercise
+## Exercise: running the model
 Just to get yourself familiar with the model again, try to run it for different values of $v$ and $c$ and see what happens.
 
 ## Interactions among relatives
@@ -83,7 +84,7 @@ Can you try to explain what is going on in the expressions above? Why do allele 
 
 2. Is it reasonable to think as $r$ as a constant parameter?
 
-## Exercise: 
+## Exercise: varying the values of $r$
 Plot your results for different values of $r$, either in Excel or by using one of the plotting packages in R. Is the relationship between aggression and $r$ in line with your expectations?
 
 

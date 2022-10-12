@@ -2,7 +2,7 @@
 
 # Individual-based simulations and drift
 
-Previously, the model of the        Hawk-Dove game that we have used was **deterministic**, where multiple runs for the same values of the parameters $v$ and $c$ always result in the same outcome. 
+Previously, the model of the Hawk-Dove game that we have used was **deterministic**, where multiple runs for the same values of the parameters $v$ and $c$ always result in the same outcome. 
 
 In reality, however, evolution does not work like that, as quite a number of biological processes are the result of **chance**. To give some examples: chance plays a big role in determining whether a mutation occurs or not, whether or not you happen to encounter a hawk rather than a dove, which gamete actually contributes to the next generation or which offspring manages to survive in order to reproduce. 
 

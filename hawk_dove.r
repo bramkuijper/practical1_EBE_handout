@@ -1,8 +1,5 @@
-# broken code on the evolution of hawks vs doves
-# we intend to iterate the haploid population genetics
-# recursion p(t+1) = p(t)*...
-# but quite some things are missing or are wrong.
-# Can you spot the errors / omissions?
+# code to iterate a hawk-dove game
+
 
 # parameters coding the payoffs
 c <- 1.0
