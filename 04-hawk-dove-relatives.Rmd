@@ -60,7 +60,7 @@ Clearly, coefficients are not simply $v$ on the left hand side and $c$ on the ri
 
 Hence, rather than anything like $r x > y$ we now have $r x + k z > g y$ (i.e., lots more terms)!! And that despite it being a super simple 2 player game! What is going on??
 
-## Exercise
+## Exercise: the downfall of Hamilton's rule
 
 Can you think of why a simple expression like $r x > y$ does not apply to the Hawk Dove game? Specifically, compare the payoff matrix for the Prisoner's dilemma (see lecture slides) with the one of the Hawk dove game (see [the table in chapter 2](#tab:payoffHD)). What happens if you move from the top row to the bottom row in the payoff matrix, does the payoff increase / decrease by the same amount in the Hawk Dove game vs the Prisoner's Dilemma? What happens if you move from the left column to the right column? Discuss.
 
@@ -74,16 +74,16 @@ Now that we know we cannot really use Hamilton's rule to predict when Doves will
 * $$ \Pr(H \mid D) = r \times 0 + (1-r) p_{t} $$ probability of encounter between a focal Dove and a Hawk 
 * $$ \Pr(D \mid D) = r \times 1 + (1- r) (1-p_{t} ) $$ probability of encounter between a focal Dove and a non-focal Dove ($\Pr(H \mid D) + \Pr(D \mid D) = 1$).
 
-## Exercise
+## Exercise: explaining these expressions?
 Can you try to explain what is going on in the expressions above? Why do allele frequencies $p_{t}$ still feature here?
 
-## Exercise
+## Exercise: implementing it in the numerical model
 
 1. Copy-paste the code of the correct numerical iterations of the hawk dove game above and modify the encounter rates to allow for nonrandom interactions. While $p_{t}$ is still the allele frequency of the Hawk allele, you have to add $r$ as a constant parameter, which you can give any value between $0 \leq r \leq 1$ before you start the iteration. Start with $r=0.5$, for example, what does this mean about the relatives any individual is most likely to interact?
 
 2. Is it reasonable to think as $r$ as a constant parameter?
 
-## Exercise
+## Exercise: 
 Plot your results for different values of $r$, either in Excel or by using one of the plotting packages in R. Is the relationship between aggression and $r$ in line with your expectations?
 
 
