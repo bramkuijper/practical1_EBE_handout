@@ -53,12 +53,12 @@ var.1 <- "some text instead!"
 print(var.1)
 ```
 
-You can always check the type of your variable using the `typeof()` function:
+You can always check the type of your variable using the `class()` function:
 ```{r, collapse=TRUE}
-typeof(var.1)
-typeof(var.2)
+class(var.1)
+class(var.2)
 ```
-As you see, `typeof` does not tell you `var.2` is a vector of multiple values, but just focuses on the type of the values contained in them (in this case a `double`, which is another word for floating point value). If you want to find out if something is a vector of values, you have to look at the length of the variable (see below).
+As you see, `class()` does not tell you that `var.2` is a vector of multiple values, but just focuses on the type of the values contained in them (in this case a `numeric`, which is R's way of saying that we are dealing with a real number). If you want to find out if something is a vector of values, you have to look at the length of the variable (see below).
 
 ## Vectors and element selection
 As you have seen in the example of `var.2` above, variables can point to collections of multiple values (vectors). To create a vector, we use the `c()` function. We can subsequently get values of (groups of) individual elements by using the `[[]]` operator:
@@ -93,7 +93,7 @@ print(animals)
  ```{r,eval=F}
  animals[[10]]*10
  ```
-what happens? Use `typeof(animals[[10]])` to see what is going on.
+what happens? Use `class(animals[[10]])` to see what is going on.
 
 ## Information about your vector
 You can obtain information about your vector by using a range of different functions, such as 

@@ -1,5 +1,5 @@
 --- 
-title: "Evolutionary Behavioural Ecology: practical 1 - Modelling Evolution"
+title: "Evolutionary Behavioural Ecology: practicals 1 & 2 - Modelling Evolution"
 author: "Bram Kuijper"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site

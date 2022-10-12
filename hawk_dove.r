@@ -5,14 +5,14 @@
 # Can you spot the errors / omissions?
 
 # parameters coding the payoffs
-c <- 2.0
-v <- 1.0
+c <- 1.0
+v <- 0
 
 # baseline fitness
 w0 <- 10
 
 # maximum time the simulation should run for
-max_time <- 10000
+max_time <- 1000000
 
 # a vector containing allele frequencies
 # for all time steps
@@ -28,9 +28,9 @@ for (time_idx in 1:(max_time-1))
 {
   wH <- w0 + p[[time_idx]] * (v-c)/2 + (1-p[[time_idx]]) * v
   wD <- w0 + p[[time_idx]] * 0 + (1-p[[time_idx]]) * v/2
-  
+
   wBar <- wH * p[[time_idx]] + wD * (1-p[[time_idx]])
-  
+
   # recursion equation
   p[[time_idx + 1]] <- p[[time_idx]] * wH / wBar
 }
